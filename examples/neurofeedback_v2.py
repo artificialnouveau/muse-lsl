@@ -99,3 +99,4 @@ if __name__ == "__main__":
         df.to_csv('/mnt/data/eeg_data.csv', index=False)
 
         print("Data and plots saved.")
+
