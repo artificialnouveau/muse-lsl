@@ -105,12 +105,3 @@ if __name__ == "__main__":
         df.to_csv(csv_filename, index=False)  # Save the CSV in the current directory
     
         print(f"Data and plot saved as '{csv_filename}' and '{plot_filename}'.")
-
-        plt.ioff()
-        plt.savefig('/mnt/data/eeg_plots.png')
-
-        df = pd.DataFrame(band_history)
-        df.to_csv('/mnt/data/eeg_data.csv', index=False)
-
-        print("Data and plots saved.")
-
