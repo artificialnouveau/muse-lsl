@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from pylsl import StreamInlet, resolve_byprop
 import utils
 import pandas as pd
+from datetime import datetime
 
 # Define Band class
 class Band:
@@ -37,6 +38,11 @@ if __name__ == "__main__":
     filter_state = None
     n_win_test = int(np.floor((BUFFER_LENGTH - EPOCH_LENGTH) / SHIFT_LENGTH + 1))
     band_buffer = np.zeros((n_win_test, 4))
+
+    # Get the current date and time for filenames
+    current_time_str = datetime.now().strftime("%Y%m%d-%H%M%S")
+    plot_filename = f"{current_time_str}_eeg_plot.png"
+    csv_filename = f"{current_time_str}_eeg_data.csv"
 
     # Set up the plots
     fig, (ax1, ax2) = plt.subplots(2, 1)
@@ -88,9 +94,17 @@ if __name__ == "__main__":
                     ax2.autoscale_view()
 
                     plt.pause(0.01)
-
+    
     except KeyboardInterrupt:
         print('Closing!')
+    
+        plt.ioff()
+        plt.savefig(plot_filename)  # Save the plot in the current directory
+    
+        df = pd.DataFrame(band_history)
+        df.to_csv(csv_filename, index=False)  # Save the CSV in the current directory
+    
+        print(f"Data and plot saved as '{csv_filename}' and '{plot_filename}'.")
 
         plt.ioff()
         plt.savefig('/mnt/data/eeg_plots.png')
